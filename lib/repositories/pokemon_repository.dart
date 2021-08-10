@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:pokedex/models/pokemon_generation_response.dart';
 import 'package:pokedex/repositories/pokemon_repository_interface.dart';
 
@@ -13,7 +14,12 @@ class PokemonRepository extends IPokemonRepository {
   Future<PokemonGenerationResponse> getAllPokemonsByGeneration(
       int generation) async {
     try {
-      var response = await _dio.get('/generation/$generation');
+      var response = await _dio.get(
+        '/generation/$generation',
+        options: buildCacheOptions(
+          Duration(days: 7),
+        ),
+      );
 
       return PokemonGenerationResponse.fromJson(response.toString());
     } on DioError catch (ex) {
