@@ -20,7 +20,6 @@ class PokemonRepository extends IPokemonRepository {
           Duration(days: 7),
         ),
       );
-
       return PokemonGenerationResponse.fromJson(response.toString());
     } on DioError catch (ex) {
       // Assumming there will be an errorMessage property in the JSON object

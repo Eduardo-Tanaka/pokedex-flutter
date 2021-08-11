@@ -36,38 +36,26 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              'You have pushed the button this many times:',
-            ),
-            BlocBuilder<PokemonBloc, PokemonBlocState>(
-              builder: (context, snapshot) {
-                if (snapshot is PokemonLoadSucess) {
-                  print(snapshot);
-                  return Container();
-                } else if (snapshot is PokemonLoadInProgress) {
-                  return CircularProgressIndicator();
-                }
-                return Container();
+      body: BlocBuilder<PokemonBloc, PokemonBlocState>(
+        builder: (context, snapshot) {
+          if (snapshot is PokemonLoadSucess) {
+            return ListView.builder(
+              itemCount: snapshot.response.pokemonSpecies.length,
+              itemBuilder: (ctx, index) {
+                return Text(snapshot.response.pokemonSpecies[index].name);
               },
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
+            );
+          } else if (snapshot is PokemonLoadInProgress) {
+            return CircularProgressIndicator();
+          }
+          return Container();
+        },
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

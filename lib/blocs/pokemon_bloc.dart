@@ -13,8 +13,19 @@ class PokemonBloc extends Bloc<PokemonBlocEvent, PokemonBlocState> {
     switch (event) {
       case PokemonBlocEvent.pokemonGenerationRetrieved:
         try {
-          yield PokemonLoadSucess(
-              await pokemonRepository.getAllPokemonsByGeneration(1));
+          final pokemons =
+              await pokemonRepository.getAllPokemonsByGeneration(1);
+          // order pokemon list from id
+          pokemons.pokemonSpecies.sort(
+            (a, b) => int.parse(
+              a.url.replaceAll(RegExp(r'[^0-9]'), ''),
+            ).compareTo(
+              int.parse(
+                b.url.replaceAll(RegExp(r'[^0-9]'), ''),
+              ),
+            ),
+          );
+          yield PokemonLoadSucess(pokemons);
         } catch (_) {
           yield PokemonLoadFailure();
         }
