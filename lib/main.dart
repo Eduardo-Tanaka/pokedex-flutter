@@ -4,6 +4,7 @@ import 'package:pokedex/blocs/pokemon_bloc.dart';
 import 'package:pokedex/blocs/pokemon_bloc_event.dart';
 import 'package:pokedex/blocs/pokemon_bloc_state.dart';
 import 'package:pokedex/client/client.dart';
+import 'package:pokedex/pages/card_home_widget.dart';
 import 'package:pokedex/repositories/pokemon_repository.dart';
 
 void main() {
@@ -48,7 +49,9 @@ class _MyHomePageState extends State<MyHomePage> {
             return ListView.builder(
               itemCount: snapshot.response.pokemonSpecies.length,
               itemBuilder: (ctx, index) {
-                return Text(snapshot.response.pokemonSpecies[index].name);
+                return CardHomeWidget(
+                  url: snapshot.response.pokemonSpecies[index].url,
+                );
               },
             );
           } else if (snapshot is PokemonLoadInProgress) {
