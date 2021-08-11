@@ -19,13 +19,13 @@ class Other {
 
   Map<String, dynamic> toMap() {
     return {
-      'official_artwork': officialArtwork.toMap(),
+      'official-artwork': officialArtwork.toMap(),
     };
   }
 
   factory Other.fromMap(Map<String, dynamic> map) {
     return Other(
-      officialArtwork: OfficialArtwork.fromMap(map['official_artwork']),
+      officialArtwork: OfficialArtwork.fromMap(map['official-artwork']),
     );
   }
 

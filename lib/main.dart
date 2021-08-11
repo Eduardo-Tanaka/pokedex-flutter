@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pokedex/blocs/pokemon_bloc.dart';
-import 'package:pokedex/blocs/pokemon_bloc_event.dart';
-import 'package:pokedex/blocs/pokemon_bloc_state.dart';
 import 'package:pokedex/client/client.dart';
 import 'package:pokedex/pages/card_home_widget.dart';
 import 'package:pokedex/repositories/pokemon_repository.dart';
+
+import 'blocs/pokemon_generation/pokemon_generation_bloc.dart';
+import 'blocs/pokemon_generation/pokemon_generation_bloc_event.dart';
+import 'blocs/pokemon_generation/pokemon_generation_bloc_state.dart';
 
 void main() {
   runApp(MyApp());
@@ -15,8 +16,16 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final _dio = Client().init();
-    return BlocProvider(
-      create: (_) => PokemonBloc(PokemonRepository(_dio)),
+    final _pokemonRepository = PokemonRepository(_dio);
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<PokemonGenerationBloc>(
+          create: (_) => PokemonGenerationBloc(_pokemonRepository),
+        ),
+        /*BlocProvider<PokemonBloc>(
+          create: (_) => PokemonBloc(_pokemonRepository),
+        ),*/
+      ],
       child: MaterialApp(
         title: 'Flutter Demo',
         theme: ThemeData(
@@ -43,9 +52,9 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: BlocBuilder<PokemonBloc, PokemonBlocState>(
+      body: BlocBuilder<PokemonGenerationBloc, PokemonGenerationBlocState>(
         builder: (context, snapshot) {
-          if (snapshot is PokemonLoadSucess) {
+          if (snapshot is PokemonGenerationLoadSucess) {
             return ListView.builder(
               itemCount: snapshot.response.pokemonSpecies.length,
               itemBuilder: (ctx, index) {
@@ -54,7 +63,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 );
               },
             );
-          } else if (snapshot is PokemonLoadInProgress) {
+          } else if (snapshot is PokemonGenerationLoadInProgress) {
             return CircularProgressIndicator();
           }
           return Container();
@@ -63,8 +72,8 @@ class _MyHomePageState extends State<MyHomePage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           context
-              .read<PokemonBloc>()
-              .add(PokemonBlocEvent.pokemonGenerationRetrieved);
+              .read<PokemonGenerationBloc>()
+              .add(PokemonGenerationRetrieved(1));
         },
         tooltip: 'Increment',
         child: Icon(Icons.add),

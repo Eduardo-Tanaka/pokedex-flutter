@@ -1,5 +1,14 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:intl/intl.dart';
+import 'package:pokedex/blocs/pokemon/pokemon_bloc.dart';
+import 'package:pokedex/blocs/pokemon/pokemon_bloc_event.dart';
+import 'package:pokedex/blocs/pokemon/pokemon_bloc_state.dart';
+import 'package:pokedex/client/client.dart';
+import 'package:pokedex/repositories/pokemon_repository.dart';
+
+import 'package:pokedex/extensions/string_extension.dart';
 
 class CardHomeWidget extends StatelessWidget {
   final String url;
@@ -11,65 +20,125 @@ class CardHomeWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(
-        horizontal: 20,
-        vertical: 10,
-      ),
-      child: Container(
-        decoration: BoxDecoration(
-          color: Colors.green,
-          border: Border.all(color: Colors.black, width: 0.0),
-          borderRadius: BorderRadius.all(Radius.elliptical(16, 16)),
-        ),
-        height: 100,
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: [
-            CachedNetworkImage(
-              placeholder: (context, url) => CircularProgressIndicator(),
-              imageUrl:
-                  'https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/1.png',
-              width: 100,
-            ),
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: 8,
+    final int _id = int.parse(
+        url.split('pokemon-species')[1].replaceAll(RegExp(r'[^0-9]'), ''));
+    return BlocProvider(
+      create: (context) => PokemonBloc(PokemonRepository(Client().init())),
+      child: BlocBuilder<PokemonBloc, PokemonBlocState>(
+        builder: (ctx, state) {
+          if (state is PokemonLoadSucess) {
+            return Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 20,
+                vertical: 10,
+              ),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.green,
+                  border: Border.all(color: Colors.black, width: 0.0),
+                  borderRadius: BorderRadius.all(Radius.elliptical(16, 16)),
                 ),
-                Text(
-                  "Bulbasaur",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 28,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(
-                    top: 4,
-                    right: 8,
-                  ),
-                  child: Icon(
-                    Icons.ac_unit,
-                  ),
-                ),
-              ],
-            ),
-            Align(
-              alignment: Alignment.bottomRight,
-              child: Text(
-                "#001",
-                style: TextStyle(
-                  color: Colors.white.withOpacity(0.4),
-                  fontSize: 32,
-                  fontWeight: FontWeight.bold,
+                height: 100,
+                child: Row(
+                  children: [
+                    CachedNetworkImage(
+                      placeholder: (context, url) =>
+                          Center(child: CircularProgressIndicator()),
+                      imageUrl: state
+                          .response.sprites.other.officialArtwork.frontDefault,
+                      width: 100,
+                      height: 100,
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: const EdgeInsets.only(top: 8, left: 10),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              state.response.name.capitalize(),
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 28,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Expanded(
+                              child: Row(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Padding(
+                                    padding: const EdgeInsets.only(
+                                      top: 4,
+                                      right: 8,
+                                    ),
+                                    child: Icon(
+                                      Icons.ac_unit,
+                                    ),
+                                  ),
+                                  Align(
+                                    alignment: Alignment.bottomRight,
+                                    child: Text(
+                                      NumberFormat("'#'000").format(_id),
+                                      style: TextStyle(
+                                        color: Colors.white.withOpacity(0.4),
+                                        fontSize: 36,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
-            ),
-          ],
-        ),
+            );
+          } else if (state is PokemonLoadInProgress) {
+            ctx.read<PokemonBloc>().add(PokemonRetrieved(_id));
+            return Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 20,
+                vertical: 10,
+              ),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.green,
+                  border: Border.all(color: Colors.black, width: 0.0),
+                  borderRadius: BorderRadius.all(Radius.elliptical(16, 16)),
+                ),
+                height: 100,
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              ),
+            );
+          } else {
+            return Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 20,
+                vertical: 10,
+              ),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.green,
+                  border: Border.all(color: Colors.black, width: 0.0),
+                  borderRadius: BorderRadius.all(Radius.elliptical(16, 16)),
+                ),
+                height: 100,
+                child: Center(
+                  child: CircularProgressIndicator(),
+                ),
+              ),
+            );
+          }
+        },
       ),
     );
   }

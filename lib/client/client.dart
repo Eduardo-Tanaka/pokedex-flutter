@@ -23,8 +23,9 @@ class Client {
           }
           return hander.next(response);
         },
-        onError: (DioError e, hanlder) {
-          return hanlder.next(e);
+        onError: (DioError e, handler) {
+          print(e);
+          return handler.next(e);
         },
       ),
     );
