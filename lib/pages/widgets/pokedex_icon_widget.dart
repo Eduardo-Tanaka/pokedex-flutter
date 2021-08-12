@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pokedex/models/pokemon/type.dart';
 
-import '../pokedex_app_icons.dart';
+import '../../pokedex_app_icons.dart';
 
 class PokedexIconWidget extends StatelessWidget {
   final Type type;

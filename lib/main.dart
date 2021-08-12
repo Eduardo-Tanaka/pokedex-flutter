@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokedex/client/client.dart';
-import 'package:pokedex/pages/card_home_placeholder_widget.dart';
-import 'package:pokedex/pages/card_home_widget.dart';
+import 'package:pokedex/pages/widgets/card_home_placeholder_widget.dart';
+import 'package:pokedex/pages/widgets/card_home_widget.dart';
 import 'package:pokedex/repositories/pokemon_repository.dart';
 
 import 'blocs/pokemon_generation/pokemon_generation_bloc.dart';
@@ -11,8 +11,7 @@ import 'blocs/pokemon_generation/pokemon_generation_bloc_state.dart';
 import 'blocs/pokemon_species/pokemon_species_bloc.dart';
 import 'blocs/pokemon_species/pokemon_species_bloc_event.dart';
 import 'blocs/pokemon_species/pokemon_species_bloc_state.dart';
-import 'models/pokemon/pokemon_response.dart';
-import 'models/pokemon_species/pokemon_species_response.dart';
+import 'models/pokemon.dart';
 import 'package:pokedex/extensions/string_extension.dart';
 
 void main() {
@@ -53,9 +52,8 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
-    final Map<int, PokemonResponse> _pokemons = Map();
+    final Map<int, Pokemon> _pokemons = Map();
 
-    final Map<int, PokemonSpeciesResponse> _pokemonSpecies = Map();
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.title),
@@ -78,23 +76,28 @@ class _MyHomePageState extends State<MyHomePage> {
                       BlocBuilder<PokemonSpeciesBloc, PokemonSpeciesBlocState>(
                     builder: (ctx, state) {
                       if (state is PokemonSpecieLoadInProgress &&
-                          !_pokemonSpecies.keys.contains(_id)) {
+                          !_pokemons.keys.contains(_id)) {
                         ctx
                             .read<PokemonSpeciesBloc>()
                             .add(PokemonSpecieRetrieved(_id));
                         return CardHomePlaceholderWidget();
                       } else if (state is PokemonSpecieLoadSucess) {
-                        _pokemonSpecies[_id] = state.response;
+                        _pokemons[_id] = state.pokemon;
                         return CardHomeWidget(
                           url: snapshot.response.pokemonSpecies[index].url,
-                          color: state.response.color.name.getColor(),
-                          pokemons: _pokemons,
+                          color: state.pokemon.pokemonSpecies.color.name
+                              .getColor(),
+                          pokemon: state.pokemon,
                         );
-                      } else if (_pokemonSpecies.keys.contains(_id)) {
+                      } else if (_pokemons.keys.contains(_id)) {
                         return CardHomeWidget(
                           url: snapshot.response.pokemonSpecies[index].url,
-                          color: _pokemonSpecies[_id]?.color.name.getColor(),
-                          pokemons: _pokemons,
+                          color: _pokemons[_id]
+                              ?.pokemonSpecies
+                              .color
+                              .name
+                              .getColor(),
+                          pokemon: _pokemons[_id]!,
                         );
                       } else {
                         ctx

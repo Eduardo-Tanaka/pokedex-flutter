@@ -1,4 +1,4 @@
-import 'package:pokedex/models/pokemon_species/pokemon_species_response.dart';
+import 'package:pokedex/models/pokemon.dart';
 
 abstract class PokemonSpeciesBlocState {
   const PokemonSpeciesBlocState();
@@ -7,12 +7,12 @@ abstract class PokemonSpeciesBlocState {
 class PokemonSpecieLoadInProgress extends PokemonSpeciesBlocState {}
 
 class PokemonSpecieLoadSucess extends PokemonSpeciesBlocState {
-  final PokemonSpeciesResponse response;
+  final Pokemon pokemon;
 
-  const PokemonSpecieLoadSucess(this.response);
+  const PokemonSpecieLoadSucess(this.pokemon);
 
   @override
-  String toString() => 'PokemonSpecieLoadSucess { response: $response }';
+  String toString() => 'PokemonSpecieLoadSucess { response: $pokemon }';
 }
 
 class PokemonSpecieLoadFailure extends PokemonSpeciesBlocState {}
