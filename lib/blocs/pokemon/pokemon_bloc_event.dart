@@ -7,5 +7,3 @@ class PokemonRetrieved extends PokemonBlocEvent {
 
   const PokemonRetrieved(this.id);
 }
-
-class PokemonListRetrieved extends PokemonBlocEvent {}

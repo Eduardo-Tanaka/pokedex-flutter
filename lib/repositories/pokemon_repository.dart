@@ -4,6 +4,7 @@ import 'package:dio/dio.dart';
 import 'package:dio_http_cache/dio_http_cache.dart';
 import 'package:pokedex/models/pokemon/pokemon_response.dart';
 import 'package:pokedex/models/pokemon_generation_response.dart';
+import 'package:pokedex/models/pokemon_species/pokemon_species_response.dart';
 import 'package:pokedex/repositories/pokemon_repository_interface.dart';
 
 class PokemonRepository extends IPokemonRepository {
@@ -39,6 +40,23 @@ class PokemonRepository extends IPokemonRepository {
         ),
       );
       return PokemonResponse.fromJson(response.toString());
+    } on DioError catch (ex) {
+      // Assumming there will be an errorMessage property in the JSON object
+      String errorMessage = json.decode(ex.response.toString())["errorMessage"];
+      throw new Exception(errorMessage);
+    }
+  }
+
+  @override
+  Future<PokemonSpeciesResponse> getPokemonSpecieById(int id) async {
+    try {
+      var response = await _dio.get(
+        '/pokemon-species/$id',
+        options: buildCacheOptions(
+          Duration(days: 7),
+        ),
+      );
+      return PokemonSpeciesResponse.fromJson(response.toString());
     } on DioError catch (ex) {
       // Assumming there will be an errorMessage property in the JSON object
       String errorMessage = json.decode(ex.response.toString())["errorMessage"];

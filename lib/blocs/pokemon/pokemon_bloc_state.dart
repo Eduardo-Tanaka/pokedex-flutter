@@ -16,12 +16,3 @@ class PokemonLoadSucess extends PokemonBlocState {
 }
 
 class PokemonLoadFailure extends PokemonBlocState {}
-
-class PokemonListLoadSuccess extends PokemonBlocState {
-  final List<PokemonResponse> pokemons;
-
-  const PokemonListLoadSuccess([this.pokemons = const []]);
-
-  @override
-  String toString() => 'PokemonListLoadSuccess { response: $pokemons }';
-}
