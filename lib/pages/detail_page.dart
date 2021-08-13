@@ -7,6 +7,7 @@ import 'package:pokedex/pages/widgets/about_widget.dart';
 import 'package:pokedex/pages/widgets/button_pokedex_widget.dart';
 import 'package:pokedex/pages/widgets/evolution_widget.dart';
 import 'package:pokedex/pages/widgets/pokedex_icon_widget.dart';
+import 'package:pokedex/pages/widgets/stats_widget.dart';
 
 class DetailPage extends StatelessWidget {
   final Pokemon pokemon;
@@ -138,21 +139,27 @@ class DetailPage extends StatelessWidget {
             ],
           ),
           Expanded(
-            flex: 1,
             child: Padding(
               padding: const EdgeInsets.all(20),
               child: PageView(
                 scrollDirection: Axis.horizontal,
+                physics: BouncingScrollPhysics(),
                 controller: controller,
                 children: [
                   Evolution(
                     pokemon: pokemon,
                   ),
-                  About(
-                    pokemon: pokemon,
+                  SingleChildScrollView(
+                    physics: BouncingScrollPhysics(),
+                    child: About(
+                      pokemon: pokemon,
+                    ),
                   ),
-                  Center(
-                    child: Text('Third Page'),
+                  SingleChildScrollView(
+                    physics: BouncingScrollPhysics(),
+                    child: StatsWidget(
+                      pokemon: pokemon,
+                    ),
                   )
                 ],
               ),
