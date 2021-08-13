@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:dio_http_cache/dio_http_cache.dart';
+import 'package:pokedex/models/evolution_chain/evolution_chain_response.dart';
 import 'package:pokedex/models/pokemon/pokemon_response.dart';
 import 'package:pokedex/models/pokemon_generation_response.dart';
 import 'package:pokedex/models/pokemon_species/pokemon_species_response.dart';
@@ -57,6 +58,23 @@ class PokemonRepository extends IPokemonRepository {
         ),
       );
       return PokemonSpeciesResponse.fromJson(response.toString());
+    } on DioError catch (ex) {
+      // Assumming there will be an errorMessage property in the JSON object
+      String errorMessage = json.decode(ex.response.toString())["errorMessage"];
+      throw new Exception(errorMessage);
+    }
+  }
+
+  @override
+  Future<EvolutionChainResponse> getEvolutionChainById(int id) async {
+    try {
+      var response = await _dio.get(
+        '/evolution-chain/$id',
+        options: buildCacheOptions(
+          Duration(days: 7),
+        ),
+      );
+      return EvolutionChainResponse.fromJson(response.toString());
     } on DioError catch (ex) {
       // Assumming there will be an errorMessage property in the JSON object
       String errorMessage = json.decode(ex.response.toString())["errorMessage"];

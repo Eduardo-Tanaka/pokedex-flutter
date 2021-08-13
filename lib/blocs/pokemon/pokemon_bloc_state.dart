@@ -1,18 +1,8 @@
-import 'package:pokedex/models/pokemon/pokemon_response.dart';
+import 'package:pokedex/models/pokemon.dart';
 
-abstract class PokemonBlocState {
-  const PokemonBlocState();
+class PokemonBlocState {
+  final Map<int, Pokemon> pokemons;
+  PokemonBlocState({
+    required this.pokemons,
+  });
 }
-
-class PokemonLoadInProgress extends PokemonBlocState {}
-
-class PokemonLoadSucess extends PokemonBlocState {
-  final PokemonResponse response;
-
-  const PokemonLoadSucess(this.response);
-
-  @override
-  String toString() => 'PokemonLoadSucess { response: $response }';
-}
-
-class PokemonLoadFailure extends PokemonBlocState {}

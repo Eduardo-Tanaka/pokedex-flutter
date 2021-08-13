@@ -1,9 +1,11 @@
+import 'package:pokedex/models/pokemon.dart';
+
 abstract class PokemonBlocEvent {
   const PokemonBlocEvent();
 }
 
 class PokemonRetrieved extends PokemonBlocEvent {
-  final int id;
+  final Pokemon pokemon;
 
-  const PokemonRetrieved(this.id);
+  const PokemonRetrieved(this.pokemon);
 }

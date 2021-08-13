@@ -25,6 +25,8 @@ extension StringExtension on String {
         return Colors.grey;
       case 'white':
         return Colors.white;
+      case 'black':
+        return Colors.black;
       default:
         return Colors.transparent;
     }

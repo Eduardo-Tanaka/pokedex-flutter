@@ -146,8 +146,11 @@ class DetailPage extends StatelessWidget {
                 physics: BouncingScrollPhysics(),
                 controller: controller,
                 children: [
-                  Evolution(
-                    pokemon: pokemon,
+                  SingleChildScrollView(
+                    physics: BouncingScrollPhysics(),
+                    child: Evolution(
+                      pokemon: pokemon,
+                    ),
                   ),
                   SingleChildScrollView(
                     physics: BouncingScrollPhysics(),

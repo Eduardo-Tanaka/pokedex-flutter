@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pokedex/blocs/pokemon/pokemon_bloc.dart';
+import 'package:pokedex/blocs/pokemon/pokemon_bloc_event.dart';
 import 'package:pokedex/blocs/pokemon_generation/pokemon_generation_bloc.dart';
 import 'package:pokedex/blocs/pokemon_generation/pokemon_generation_bloc_event.dart';
 import 'package:pokedex/blocs/pokemon_generation/pokemon_generation_bloc_state.dart';
@@ -103,8 +105,12 @@ class HomePage extends StatelessWidget {
                               ctx
                                   .read<PokemonSpeciesBloc>()
                                   .add(PokemonSpecieRetrieved(_id));
+
                               return CardHomePlaceholderWidget();
                             } else if (state is PokemonSpecieLoadSucess) {
+                              context
+                                  .read<PokemonBloc>()
+                                  .add(PokemonRetrieved(state.pokemon));
                               _pokemons[_id] = state.pokemon;
                               return CardHomeWidget(
                                 url:
@@ -125,6 +131,7 @@ class HomePage extends StatelessWidget {
                                 pokemon: _pokemons[_id]!,
                               );
                             } else {
+                              print("111111111111111111111111111 $_id");
                               ctx
                                   .read<PokemonSpeciesBloc>()
                                   .add(PokemonSpecieRetrieved(_id));
