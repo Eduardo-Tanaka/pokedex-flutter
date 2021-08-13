@@ -8,11 +8,11 @@ import 'package:pokedex/blocs/pokemon_species/pokemon_species_bloc_event.dart';
 import 'package:pokedex/blocs/pokemon_species/pokemon_species_bloc_state.dart';
 import 'package:pokedex/client/client.dart';
 import 'package:pokedex/models/pokemon.dart';
+import 'package:pokedex/pages/widgets/card_home_placeholder_widget.dart';
 import 'package:pokedex/pages/widgets/card_home_widget.dart';
 import 'package:pokedex/pages/widgets/input_search_widget.dart';
 import 'package:pokedex/repositories/pokemon_repository.dart';
 
-import 'card_home_placeholder_widget.dart';
 import 'package:pokedex/extensions/string_extension.dart';
 
 class HomePage extends StatelessWidget {

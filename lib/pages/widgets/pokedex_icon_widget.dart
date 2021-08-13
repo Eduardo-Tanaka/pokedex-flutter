@@ -28,7 +28,7 @@ class PokedexIconWidget extends StatelessWidget {
     );
   }
 
-  IconData getIcon(String icon) {
+  static IconData getIcon(String icon) {
     switch (icon) {
       case 'fighting':
         return PokedexApp.fighting;
@@ -72,7 +72,7 @@ class PokedexIconWidget extends StatelessWidget {
     }
   }
 
-  Color getColor(String icon) {
+  static Color getColor(String icon) {
     switch (icon) {
       case 'fighting':
         return Color(0xFFD3425F);

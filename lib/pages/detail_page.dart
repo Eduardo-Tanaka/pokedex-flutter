@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:pokedex/models/pokemon.dart';
 import 'package:pokedex/extensions/string_extension.dart';
+import 'package:pokedex/pages/widgets/about_widget.dart';
 import 'package:pokedex/pages/widgets/button_pokedex_widget.dart';
+import 'package:pokedex/pages/widgets/evolution_widget.dart';
 import 'package:pokedex/pages/widgets/pokedex_icon_widget.dart';
 
 class DetailPage extends StatelessWidget {
@@ -137,65 +139,23 @@ class DetailPage extends StatelessWidget {
           ),
           Expanded(
             flex: 1,
-            child: PageView(
-              scrollDirection: Axis.horizontal,
-              controller: controller,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.all(20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Evolution",
-                      ),
-                      SizedBox(
-                        height: 12,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: [
-                          CachedNetworkImage(
-                            placeholder: (context, url) =>
-                                Center(child: CircularProgressIndicator()),
-                            imageUrl: pokemon.pokemon.sprites.other
-                                .officialArtwork.frontDefault,
-                            width: 120,
-                            height: 120,
-                          ),
-                          Expanded(
-                            child: Column(
-                              children: [
-                                Text("Level 16"),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Divider(
-                                    thickness: 4,
-                                  ),
-                                )
-                              ],
-                            ),
-                          ),
-                          CachedNetworkImage(
-                            placeholder: (context, url) =>
-                                Center(child: CircularProgressIndicator()),
-                            imageUrl: pokemon.pokemon.sprites.other
-                                .officialArtwork.frontDefault,
-                            width: 120,
-                            height: 120,
-                          ),
-                        ],
-                      ),
-                    ],
+            child: Padding(
+              padding: const EdgeInsets.all(20),
+              child: PageView(
+                scrollDirection: Axis.horizontal,
+                controller: controller,
+                children: [
+                  Evolution(
+                    pokemon: pokemon,
                   ),
-                ),
-                Center(
-                  child: Text('Second Page'),
-                ),
-                Center(
-                  child: Text('Third Page'),
-                )
-              ],
+                  About(
+                    pokemon: pokemon,
+                  ),
+                  Center(
+                    child: Text('Third Page'),
+                  )
+                ],
+              ),
             ),
           ),
         ],
