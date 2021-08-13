@@ -3,11 +3,15 @@ import 'package:flutter/material.dart';
 class ButtonPokedexWidget extends StatelessWidget {
   final String title;
   final VoidCallback onPressed;
+  final bool active;
+  final Color color;
 
   const ButtonPokedexWidget({
     Key? key,
     required this.title,
     required this.onPressed,
+    required this.active,
+    required this.color,
   }) : super(key: key);
 
   @override
@@ -17,7 +21,7 @@ class ButtonPokedexWidget extends StatelessWidget {
       child: Text(
         title,
         style: TextStyle(
-          color: Colors.grey,
+          color: active ? color : Colors.grey,
           fontWeight: FontWeight.bold,
         ),
       ),

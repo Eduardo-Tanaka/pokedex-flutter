@@ -4,12 +4,14 @@ class RowDataWidget extends StatelessWidget {
   final String title;
   final String value;
   final bool showStatsBar;
+  final Color color;
 
   const RowDataWidget({
     Key? key,
     required this.title,
     required this.value,
     this.showStatsBar = false,
+    required this.color,
   }) : super(key: key);
 
   @override
@@ -32,7 +34,7 @@ class RowDataWidget extends StatelessWidget {
             style: TextStyle(
               fontWeight: FontWeight.bold,
               fontSize: 18,
-              color: Colors.green,
+              color: color,
             ),
           ),
           Visibility(
@@ -41,7 +43,7 @@ class RowDataWidget extends StatelessWidget {
               child: Padding(
                 padding: const EdgeInsets.only(left: 12),
                 child: LinearProgressIndicator(
-                  color: Colors.green,
+                  color: color,
                   backgroundColor: Colors.grey[200],
                   value: double.tryParse(value),
                 ),

@@ -4,6 +4,7 @@ import 'package:pokedex/models/pokemon.dart';
 import 'package:pokedex/pages/widgets/pokedex_icon_widget.dart';
 import 'package:pokedex/pages/widgets/row_data_widget.dart';
 import 'package:pokedex/models/pokemon/type.dart';
+import 'package:pokedex/extensions/string_extension.dart';
 
 class StatsWidget extends StatelessWidget {
   final Pokemon pokemon;
@@ -33,31 +34,37 @@ class StatsWidget extends StatelessWidget {
           title: 'HP',
           value: '45',
           showStatsBar: true,
+          color: pokemon.pokemonSpecies.color.name.getColor(),
         ),
         RowDataWidget(
           title: 'Attack',
           value: '45',
           showStatsBar: true,
+          color: pokemon.pokemonSpecies.color.name.getColor(),
         ),
         RowDataWidget(
           title: 'Defense',
           value: '45',
           showStatsBar: true,
+          color: pokemon.pokemonSpecies.color.name.getColor(),
         ),
         RowDataWidget(
           title: 'Sp. Atk.',
           value: '45',
           showStatsBar: true,
+          color: pokemon.pokemonSpecies.color.name.getColor(),
         ),
         RowDataWidget(
           title: 'Sp. Def.',
           value: '45',
           showStatsBar: true,
+          color: pokemon.pokemonSpecies.color.name.getColor(),
         ),
         RowDataWidget(
           title: 'Speed',
           value: '45',
           showStatsBar: true,
+          color: pokemon.pokemonSpecies.color.name.getColor(),
         ),
         SizedBox(
           height: 8,

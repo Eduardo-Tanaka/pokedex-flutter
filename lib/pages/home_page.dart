@@ -131,7 +131,6 @@ class HomePage extends StatelessWidget {
                                 pokemon: _pokemons[_id]!,
                               );
                             } else {
-                              print("111111111111111111111111111 $_id");
                               ctx
                                   .read<PokemonSpeciesBloc>()
                                   .add(PokemonSpecieRetrieved(_id));

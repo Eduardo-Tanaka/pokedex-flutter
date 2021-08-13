@@ -1,10 +1,12 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
 import 'package:pokedex/models/pokemon.dart';
 import 'package:pokedex/extensions/string_extension.dart';
 import 'package:pokedex/pages/widgets/about_widget.dart';
 import 'package:pokedex/pages/widgets/button_pokedex_widget.dart';
+import 'package:pokedex/pages/widgets/detail_page_cubit.dart';
 import 'package:pokedex/pages/widgets/evolution_widget.dart';
 import 'package:pokedex/pages/widgets/pokedex_icon_widget.dart';
 import 'package:pokedex/pages/widgets/stats_widget.dart';
@@ -121,22 +123,56 @@ class DetailPage extends StatelessWidget {
           SizedBox(
             height: 12,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              ButtonPokedexWidget(
-                title: "About",
-                onPressed: () {},
-              ),
-              ButtonPokedexWidget(
-                title: "Stats",
-                onPressed: () {},
-              ),
-              ButtonPokedexWidget(
-                title: "Evolution",
-                onPressed: () {},
-              ),
-            ],
+          BlocProvider(
+            create: (context) => DetailPageCubit(0),
+            child: BlocBuilder<DetailPageCubit, int>(
+              builder: (ctx, state) {
+                return Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ButtonPokedexWidget(
+                      title: "About",
+                      onPressed: () {
+                        controller.animateToPage(
+                          0,
+                          duration: Duration(milliseconds: 400),
+                          curve: Curves.easeIn,
+                        );
+                        ctx.read<DetailPageCubit>().change(0);
+                      },
+                      active: state == 0,
+                      color: pokemon.pokemonSpecies.color.name.getColor(),
+                    ),
+                    ButtonPokedexWidget(
+                      title: "Stats",
+                      onPressed: () {
+                        controller.animateToPage(
+                          1,
+                          duration: Duration(milliseconds: 400),
+                          curve: Curves.easeIn,
+                        );
+                        ctx.read<DetailPageCubit>().change(1);
+                      },
+                      active: state == 1,
+                      color: pokemon.pokemonSpecies.color.name.getColor(),
+                    ),
+                    ButtonPokedexWidget(
+                      title: "Evolution",
+                      onPressed: () {
+                        controller.animateToPage(
+                          2,
+                          duration: Duration(milliseconds: 400),
+                          curve: Curves.easeIn,
+                        );
+                        ctx.read<DetailPageCubit>().change(2);
+                      },
+                      active: state == 2,
+                      color: pokemon.pokemonSpecies.color.name.getColor(),
+                    ),
+                  ],
+                );
+              },
+            ),
           ),
           Expanded(
             child: Padding(
@@ -148,12 +184,6 @@ class DetailPage extends StatelessWidget {
                 children: [
                   SingleChildScrollView(
                     physics: BouncingScrollPhysics(),
-                    child: Evolution(
-                      pokemon: pokemon,
-                    ),
-                  ),
-                  SingleChildScrollView(
-                    physics: BouncingScrollPhysics(),
                     child: About(
                       pokemon: pokemon,
                     ),
@@ -163,7 +193,13 @@ class DetailPage extends StatelessWidget {
                     child: StatsWidget(
                       pokemon: pokemon,
                     ),
-                  )
+                  ),
+                  SingleChildScrollView(
+                    physics: BouncingScrollPhysics(),
+                    child: Evolution(
+                      pokemon: pokemon,
+                    ),
+                  ),
                 ],
               ),
             ),
