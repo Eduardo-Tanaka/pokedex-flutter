@@ -1,7 +1,10 @@
 import 'dart:convert';
 
+import 'package:flutter/foundation.dart';
+
 import 'package:pokedex/models/pokemon/pokemon_response.dart';
 import 'package:pokedex/models/pokemon_species/pokemon_species_response.dart';
+import 'package:pokedex/models/type/type_response.dart';
 
 import 'evolution_chain/evolution_chain_response.dart';
 
@@ -10,12 +13,14 @@ class Pokemon {
   final PokemonSpeciesResponse pokemonSpecies;
   final EvolutionChainResponse evolutionChain;
   final int id;
+  final List<TypeResponse> types;
 
   Pokemon({
     required this.pokemon,
     required this.pokemonSpecies,
     required this.evolutionChain,
     required this.id,
+    required this.types,
   });
 
   Pokemon copyWith({
@@ -23,12 +28,14 @@ class Pokemon {
     PokemonSpeciesResponse? pokemonSpecies,
     EvolutionChainResponse? evolutionChain,
     int? id,
+    List<TypeResponse>? types,
   }) {
     return Pokemon(
       pokemon: pokemon ?? this.pokemon,
       pokemonSpecies: pokemonSpecies ?? this.pokemonSpecies,
       evolutionChain: evolutionChain ?? this.evolutionChain,
       id: id ?? this.id,
+      types: types ?? this.types,
     );
   }
 
@@ -38,6 +45,7 @@ class Pokemon {
       'pokemonSpecies': pokemonSpecies.toMap(),
       'evolutionChain': evolutionChain.toMap(),
       'id': id,
+      'types': types.map((x) => x.toMap()).toList(),
     };
   }
 
@@ -47,6 +55,8 @@ class Pokemon {
       pokemonSpecies: PokemonSpeciesResponse.fromMap(map['pokemonSpecies']),
       evolutionChain: EvolutionChainResponse.fromMap(map['evolutionChain']),
       id: map['id'],
+      types: List<TypeResponse>.from(
+          map['types']?.map((x) => TypeResponse.fromMap(x))),
     );
   }
 
@@ -57,7 +67,7 @@ class Pokemon {
 
   @override
   String toString() {
-    return 'Pokemon(pokemon: $pokemon, pokemonSpecies: $pokemonSpecies, evolutionChain: $evolutionChain, id: $id)';
+    return 'Pokemon(pokemon: $pokemon, pokemonSpecies: $pokemonSpecies, evolutionChain: $evolutionChain, id: $id, types: $types)';
   }
 
   @override
@@ -68,7 +78,8 @@ class Pokemon {
         other.pokemon == pokemon &&
         other.pokemonSpecies == pokemonSpecies &&
         other.evolutionChain == evolutionChain &&
-        other.id == id;
+        other.id == id &&
+        listEquals(other.types, types);
   }
 
   @override
@@ -76,6 +87,7 @@ class Pokemon {
     return pokemon.hashCode ^
         pokemonSpecies.hashCode ^
         evolutionChain.hashCode ^
-        id.hashCode;
+        id.hashCode ^
+        types.hashCode;
   }
 }
