@@ -95,8 +95,10 @@ class About extends StatelessWidget {
   String getFlavorText(List<FlavorTextEntry> texts) {
     String text = '';
     texts.forEach((element) {
-      if (element.version.name == 'ruby' || element.version.name == 'emerald')
-        text += element.flavorText.replaceAll("\n", "").replaceAll(".", ".\n");
+      if (element.version.name == 'ruby' || element.version.name == 'diamond')
+        text +=
+            element.flavorText.replaceAll("\n", " ").replaceAll(". ", ".\n") +
+                "\n";
     });
 
     return text;
