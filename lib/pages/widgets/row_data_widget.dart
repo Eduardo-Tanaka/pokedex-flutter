@@ -5,6 +5,7 @@ class RowDataWidget extends StatelessWidget {
   final String value;
   final bool showStatsBar;
   final Color color;
+  final int max;
 
   const RowDataWidget({
     Key? key,
@@ -12,6 +13,7 @@ class RowDataWidget extends StatelessWidget {
     required this.value,
     this.showStatsBar = false,
     required this.color,
+    this.max = 1,
   }) : super(key: key);
 
   @override
@@ -21,7 +23,7 @@ class RowDataWidget extends StatelessWidget {
       child: Row(
         children: [
           SizedBox(
-            width: 90,
+            width: 80,
             child: Text(
               title,
               style: TextStyle(
@@ -29,12 +31,15 @@ class RowDataWidget extends StatelessWidget {
               ),
             ),
           ),
-          Text(
-            value,
-            style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 18,
-              color: color,
+          Container(
+            width: showStatsBar ? 35 : null,
+            child: Text(
+              value,
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+                color: color,
+              ),
             ),
           ),
           Visibility(
@@ -45,7 +50,7 @@ class RowDataWidget extends StatelessWidget {
                 child: LinearProgressIndicator(
                   color: color,
                   backgroundColor: Colors.grey[200],
-                  value: double.tryParse(value),
+                  value: (double.tryParse(this.value) ?? 0) / max,
                 ),
               ),
             ),

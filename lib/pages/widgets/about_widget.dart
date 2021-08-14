@@ -49,7 +49,7 @@ class About extends StatelessWidget {
               flex: 1,
               child: RowDataWidget(
                 title: 'Height',
-                value: pokemon.pokemon.height.toString(),
+                value: '${pokemon.pokemon.height / 10} m',
                 color: pokemon.pokemonSpecies.color.name.getColor(),
               ),
             ),
@@ -57,7 +57,7 @@ class About extends StatelessWidget {
               flex: 1,
               child: RowDataWidget(
                 title: 'Weight',
-                value: pokemon.pokemon.weight.toString(),
+                value: '${pokemon.pokemon.weight / 10} kg',
                 color: pokemon.pokemonSpecies.color.name.getColor(),
               ),
             ),
