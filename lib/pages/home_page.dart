@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokedex/blocs/pokemon/pokemon_bloc.dart';
@@ -10,6 +12,7 @@ import 'package:pokedex/blocs/pokemon_species/pokemon_species_bloc_event.dart';
 import 'package:pokedex/blocs/pokemon_species/pokemon_species_bloc_state.dart';
 import 'package:pokedex/client/client.dart';
 import 'package:pokedex/models/pokemon.dart';
+import 'package:pokedex/models/pokemon_generation_response.dart';
 import 'package:pokedex/pages/widgets/card_home_placeholder_widget.dart';
 import 'package:pokedex/pages/widgets/card_home_widget.dart';
 import 'package:pokedex/pages/widgets/input_search_widget.dart';
@@ -23,6 +26,26 @@ class HomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Map<int, Pokemon> _pokemons = Map();
+    final _controller = TextEditingController();
+    Timer? _debounce;
+
+    _controller.addListener(() {
+      if (_debounce?.isActive ?? false) _debounce?.cancel();
+      _debounce = Timer(const Duration(milliseconds: 300), () {
+        PokemonGenerationLoadSucess p = context
+            .read<PokemonGenerationBloc>()
+            .state as PokemonGenerationLoadSucess;
+
+        final e = PokemonGenerationResponse(
+            pokemonSpecies: (p.response.pokemonSpecies
+                .where((element) => element.name.startsWith(_controller.text))
+                .toList()));
+
+        context
+            .read<PokemonGenerationBloc>()
+            .add(PokemonGenerationFiltered(p.response, e));
+      });
+    });
 
     return Scaffold(
       appBar: AppBar(
@@ -52,6 +75,7 @@ class HomePage extends StatelessWidget {
                       child: InputSearchWidget(
                         title: 'Search for a Pokémon',
                         prefixIcon: Icons.search_outlined,
+                        controller: _controller,
                       ),
                     ),
                     SizedBox(
@@ -84,12 +108,13 @@ class HomePage extends StatelessWidget {
                 BlocBuilder<PokemonGenerationBloc, PokemonGenerationBlocState>(
               builder: (context, snapshot) {
                 if (snapshot is PokemonGenerationLoadSucess) {
+                  print(snapshot.filtered);
                   return ListView.builder(
                     shrinkWrap: true,
-                    itemCount: snapshot.response.pokemonSpecies.length,
+                    itemCount: snapshot.filtered.pokemonSpecies.length,
                     itemBuilder: (ctx, index) {
                       final int _id = int.parse(snapshot
-                          .response.pokemonSpecies[index].url
+                          .filtered.pokemonSpecies[index].url
                           .split('pokemon-species')[1]
                           .replaceAll(RegExp(r'[^0-9]'), ''));
                       final _dio = Client().init();
@@ -107,22 +132,19 @@ class HomePage extends StatelessWidget {
                                   .add(PokemonSpecieRetrieved(_id));
 
                               return CardHomePlaceholderWidget();
-                            } else if (state is PokemonSpecieLoadSucess) {
+                            } else if (state is PokemonSpecieLoadSucess &&
+                                !_pokemons.keys.contains(state.pokemon.id)) {
                               context
                                   .read<PokemonBloc>()
                                   .add(PokemonRetrieved(state.pokemon));
-                              _pokemons[_id] = state.pokemon;
+                              _pokemons[state.pokemon.id] = state.pokemon;
                               return CardHomeWidget(
-                                url:
-                                    snapshot.response.pokemonSpecies[index].url,
                                 color: state.pokemon.pokemonSpecies.color.name
                                     .getColor(),
-                                pokemon: state.pokemon,
+                                pokemon: _pokemons[_id]!,
                               );
                             } else if (_pokemons.keys.contains(_id)) {
                               return CardHomeWidget(
-                                url:
-                                    snapshot.response.pokemonSpecies[index].url,
                                 color: _pokemons[_id]
                                     ?.pokemonSpecies
                                     .color

@@ -28,10 +28,22 @@ class PokemonGenerationBloc
           ),
         );
 
-        yield PokemonGenerationLoadSucess(pokemons);
+        yield PokemonGenerationLoadSucess(pokemons, pokemons);
       } catch (_) {
         yield PokemonGenerationLoadFailure();
       }
+    } else if (event is PokemonGenerationFiltered) {
+      // order pokemon list from id
+      event.filtered.pokemonSpecies.sort(
+        (a, b) => int.parse(
+          a.url.replaceAll(RegExp(r'[^0-9]'), ''),
+        ).compareTo(
+          int.parse(
+            b.url.replaceAll(RegExp(r'[^0-9]'), ''),
+          ),
+        ),
+      );
+      yield PokemonGenerationLoadSucess(event.original, event.filtered);
     }
   }
 }

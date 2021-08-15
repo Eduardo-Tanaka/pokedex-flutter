@@ -10,13 +10,11 @@ import 'package:pokedex/extensions/string_extension.dart';
 import '../detail_page.dart';
 
 class CardHomeWidget extends StatelessWidget {
-  final String url;
   final Color? color;
   final Pokemon pokemon;
 
   const CardHomeWidget({
     Key? key,
-    required this.url,
     this.color,
     required this.pokemon,
   }) : super(key: key);

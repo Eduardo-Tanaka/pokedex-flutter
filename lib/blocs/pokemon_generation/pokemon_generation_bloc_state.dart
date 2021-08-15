@@ -8,8 +8,9 @@ class PokemonGenerationLoadInProgress extends PokemonGenerationBlocState {}
 
 class PokemonGenerationLoadSucess extends PokemonGenerationBlocState {
   final PokemonGenerationResponse response;
+  final PokemonGenerationResponse filtered;
 
-  const PokemonGenerationLoadSucess(this.response);
+  const PokemonGenerationLoadSucess(this.response, this.filtered);
 
   @override
   String toString() => 'PokemonGenerationLoadSucess { response: $response }';
