@@ -47,7 +47,6 @@ class PokemonSpeciesBloc
 
         yield PokemonSpecieLoadSucess(poke);
       } catch (e) {
-        print(e);
         yield PokemonSpecieLoadFailure();
       }
     }

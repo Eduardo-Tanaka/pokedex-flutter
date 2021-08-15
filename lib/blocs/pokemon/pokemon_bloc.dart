@@ -9,6 +9,8 @@ class PokemonBloc extends Bloc<PokemonBlocEvent, PokemonBlocState> {
   Stream<PokemonBlocState> mapEventToState(PokemonBlocEvent event) async* {
     if (event is PokemonRetrieved) {
       state.pokemons[event.pokemon.id] = event.pokemon;
+
+      yield PokemonBlocState(pokemons: state.pokemons);
     }
   }
 }

@@ -95,7 +95,7 @@ class StatsWidget extends StatelessWidget {
         Text(
           "Base Stats",
           style: TextStyle(
-            color: Colors.green,
+            color: pokemon.pokemonSpecies.color.name.getColor(),
             fontWeight: FontWeight.bold,
             fontSize: 24,
           ),
@@ -112,7 +112,7 @@ class StatsWidget extends StatelessWidget {
         Text(
           "Weaknesses",
           style: TextStyle(
-            color: Colors.green,
+            color: pokemon.pokemonSpecies.color.name.getColor(),
             fontWeight: FontWeight.bold,
             fontSize: 24,
           ),
