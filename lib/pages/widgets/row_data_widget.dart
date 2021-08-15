@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pokedex/pages/widgets/linear_progress_indicator_animated.dart';
 
 class RowDataWidget extends StatelessWidget {
   final String title;
@@ -47,10 +48,10 @@ class RowDataWidget extends StatelessWidget {
             child: Expanded(
               child: Padding(
                 padding: const EdgeInsets.only(left: 12),
-                child: LinearProgressIndicator(
+                child: LinearProgressIndicatorAnimated(
                   color: color,
-                  backgroundColor: Colors.grey[200],
-                  value: (double.tryParse(this.value) ?? 0) / max,
+                  value: value,
+                  max: max,
                 ),
               ),
             ),

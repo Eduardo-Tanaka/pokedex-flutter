@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:pokedex/models/pokemon.dart';
 import 'package:pokedex/models/pokemon/stats.dart';
 import 'package:pokedex/pages/widgets/icon_weakness.dart';
+import 'package:pokedex/pages/widgets/pokedex_icon_widget.dart';
 import 'package:pokedex/pages/widgets/row_data_widget.dart';
 import 'package:pokedex/models/pokemon/stat.dart';
 import 'package:pokedex/extensions/string_extension.dart';
@@ -17,6 +18,77 @@ class StatsWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    List<IconWeaknessWidget> _listWeakness(Pokemon pokemon) {
+      List<IconWeaknessWidget> list = [];
+      Map<String, String> doubles = Map();
+      Map<String, String> halves = Map();
+
+      pokemon.types.forEach(
+        (element) {
+          element.damageRelations.doubleDamageFrom.forEach(
+            (el) {
+              if (doubles.containsKey(el.name)) {
+                doubles[el.name] = '4';
+              } else {
+                doubles[el.name] = '2';
+              }
+            },
+          );
+
+          element.damageRelations.halfDamageFrom.forEach(
+            (el) {
+              if (halves.containsKey(el.name)) {
+                halves[el.name] = '\u00bc';
+              } else {
+                halves[el.name] = '\u00bd';
+              }
+            },
+          );
+        },
+      );
+
+      doubles.entries.forEach(
+        (element) {
+          list.add(
+            IconWeaknessWidget(
+              icon: element.key,
+              value: element.value,
+            ),
+          );
+        },
+      );
+
+      halves.entries.forEach(
+        (element) {
+          list.add(
+            IconWeaknessWidget(
+              icon: element.key,
+              value: element.value,
+            ),
+          );
+        },
+      );
+
+      PokedexIconWidget.icons.forEach(
+        (element) {
+          if (!halves.keys.contains(element) &&
+              !doubles.keys.contains(element)) {
+            list.add(
+              IconWeaknessWidget(
+                icon: element,
+                value: '1',
+              ),
+            );
+          }
+        },
+      );
+
+      list.sort((a, b) => a.value.hashCode);
+      return list;
+    }
+
+    final _weakness = _listWeakness(pokemon);
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -32,7 +104,7 @@ class StatsWidget extends StatelessWidget {
           height: 8,
         ),
         Column(
-          children: listStats(pokemon),
+          children: _listStats(pokemon),
         ),
         SizedBox(
           height: 8,
@@ -55,22 +127,36 @@ class StatsWidget extends StatelessWidget {
         SizedBox(
           height: 8,
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+        Column(
           children: [
-            IconWeaknessWidget(icon: 'water'),
-            IconWeaknessWidget(icon: 'water'),
-            IconWeaknessWidget(icon: 'water'),
-            IconWeaknessWidget(icon: 'water'),
-            IconWeaknessWidget(icon: 'water'),
-            IconWeaknessWidget(icon: 'water'),
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: _weakness.getRange(0, 6).toList(),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: _weakness.getRange(6, 12).toList(),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.only(top: 8.0),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: _weakness.getRange(12, 18).toList(),
+              ),
+            ),
           ],
         )
       ],
     );
   }
 
-  List<RowDataWidget> listStats(Pokemon pokemon) {
+  List<RowDataWidget> _listStats(Pokemon pokemon) {
     List<RowDataWidget> rows = [];
     // calculate stats https://bulbapedia.bulbagarden.net/wiki/Stat
     Stats _maxStats = pokemon.pokemon.stats
@@ -93,10 +179,5 @@ class StatsWidget extends StatelessWidget {
       },
     );
     return rows;
-  }
-
-  List<IconWeaknessWidget> listWeakness(Pokemon pokemon) {
-    List<IconWeaknessWidget> list = [];
-    return list;
   }
 }

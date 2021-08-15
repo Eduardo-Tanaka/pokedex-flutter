@@ -1,11 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:pokedex/pages/widgets/pokedex_icon_widget.dart';
+
 import 'package:pokedex/models/pokemon/type.dart';
+import 'package:pokedex/pages/widgets/pokedex_icon_widget.dart';
 
 class IconWeaknessWidget extends StatelessWidget {
   final String icon;
+  final String value;
 
-  const IconWeaknessWidget({Key? key, required this.icon}) : super(key: key);
+  const IconWeaknessWidget({
+    Key? key,
+    required this.icon,
+    required this.value,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +24,7 @@ class IconWeaknessWidget extends StatelessWidget {
           ),
         ),
         Text(
-          "1",
+          value,
         ),
       ],
     );

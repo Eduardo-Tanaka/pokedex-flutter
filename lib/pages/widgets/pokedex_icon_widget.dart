@@ -28,6 +28,27 @@ class PokedexIconWidget extends StatelessWidget {
     );
   }
 
+  static List<String> icons = [
+    'fighting',
+    'fire',
+    'flying',
+    'ghost',
+    'grass',
+    'ground',
+    'ice',
+    'normal',
+    'poison',
+    'psychic',
+    'rock',
+    'steel',
+    'water',
+    'bug',
+    'electric',
+    'dragon',
+    'dark',
+    'fairy',
+  ];
+
   static IconData getIcon(String icon) {
     switch (icon) {
       case 'fighting':
