@@ -25,6 +25,10 @@ Tested on android only, sorry i dont have a iphone/mac
 - [cached_network_image](https://pub.dev/packages/cached_network_image)
 - [intl](https://pub.dev/packages/intl)
 
+## TODO
+- add other generations
+- add moves / abilities
+
 ## Open API
 
 <img src="https://user-images.githubusercontent.com/24237865/83422649-d1b1d980-a464-11ea-8c91-a24fdf89cd6b.png" align="right" width="21%"/>
