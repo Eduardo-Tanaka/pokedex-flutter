@@ -1,15 +1,12 @@
-# pokedex
+# Pokedex
 
-Pokedex app in flutter.<br />
+Pokedex app written in flutter.<br />
 The Pokédex is an electronic device designed to catalogue and provide information regarding the various species of Pokémon featured in the Pokémon video game, anime and manga series.
 
 ## Screenshots
 
-![Pokedex](/assets/home.gif?raw=true)
-![Home](/assets/home.jpg?raw=true)
-![About](/assets/about.jpg?raw=true)
-![Stat](/assets/stat.jpg?raw=true)
-![Evolution](/assets/evolution.jpg?raw=true)
+![Pokedex](/assets/pokedex.gif?raw=true)
+| ![Home](/assets/home.jpg?raw=true)  | ![About](/assets/about.jpg?raw=true) | ![Stat](/assets/stat.jpg?raw=true) | ![Evolution](/assets/evolution.jpg?raw=true) |
 
 ## Open API
 
@@ -20,6 +17,6 @@ PokeAPI provides a RESTful API interface to highly detailed objects built from t
 
 ## Credits
 
-Design Inspiration [https://dribbble.com/shots/14241781-Pok-dex](https://dribbble.com/shots/14241781-Pok-dex)
-Pokedex Icons [https://github.com/duiker101/pokemon-type-svg-icons](https://github.com/duiker101/pokemon-type-svg-icons)
-Pokemon encyclopedia [https://bulbapedia.bulbagarden.net/wiki/Main_Page](https://bulbapedia.bulbagarden.net/wiki/Main_Page)
+- Design Inspiration [https://dribbble.com/shots/14241781-Pok-dex](https://dribbble.com/shots/14241781-Pok-dex)
+- Pokedex Icons [https://github.com/duiker101/pokemon-type-svg-icons](https://github.com/duiker101/pokemon-type-svg-icons)
+- Pokemon encyclopedia [https://bulbapedia.bulbagarden.net/wiki/Main_Page](https://bulbapedia.bulbagarden.net/wiki/Main_Page)
