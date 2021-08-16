@@ -5,6 +5,8 @@ The Pokédex is an electronic device designed to catalogue and provide informati
 
 ## Screenshots
 
+Tested on android only, sorry i dont have a iphone/mac
+
 <img src="/assets/pokedex.gif?raw=true" alt="Pokedex" height="600" />
 
 <p>
@@ -13,6 +15,15 @@ The Pokédex is an electronic device designed to catalogue and provide informati
   <img src="/assets/stat.jpg?raw=true" alt="Stat" width="200" height="400" />
   <img src="/assets/evolution.jpg?raw=true" alt="Evolution" width="200" height="400" />
 </p>
+
+## Tecnologies
+- flutter sdk: ">=2.12.0 <3.0.0"
+- [dio](https://pub.dev/packages/dio)
+- [dio_http_cache](https://pub.dev/packages/dio_http_cache)
+- [bloc](https://pub.dev/packages/bloc)
+- [flutter_bloc](https://pub.dev/packages/flutter_bloc)
+- [cached_network_image](https://pub.dev/packages/cached_network_image)
+- [intl](https://pub.dev/packages/intl)
 
 ## Open API
 
