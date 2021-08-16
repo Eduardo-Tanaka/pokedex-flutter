@@ -5,13 +5,13 @@ The Pokédex is an electronic device designed to catalogue and provide informati
 
 ## Screenshots
 
-<img src="/assets/pokedex.gif?raw=true" alt="Pokedex" width="300" height="300" />
+<img src="/assets/pokedex.gif?raw=true" alt="Pokedex" height="600" />
 
 <p>
-  <img src="/assets/home.jpg?raw=true" alt="Home" width="200" height="300" />
-  <img src="/assets/about.jpg?raw=true" alt="About" width="200" height="300" />
-  <img src="/assets/stat.jpg?raw=true" alt="Stat" width="200" height="300" />
-  <img src="/assets/evolution.jpg?raw=true" alt="Evolution" width="200" height="300" />
+  <img src="/assets/home.jpg?raw=true" alt="Home" width="200" height="400" />
+  <img src="/assets/about.jpg?raw=true" alt="About" width="200" height="400" />
+  <img src="/assets/stat.jpg?raw=true" alt="Stat" width="200" height="400" />
+  <img src="/assets/evolution.jpg?raw=true" alt="Evolution" width="200" height="400" />
 </p>
 
 ## Open API
